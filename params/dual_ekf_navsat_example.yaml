@@ -15,6 +15,12 @@ ekf_filter_node_odom:
     odom_frame: odom
     base_link_frame: base_link
     world_frame: odom
+    
+    # [x_pos,  y_pos,  z_pos,
+    #  roll,   pitch,  yaw,
+    #  xl_vel, yl_vel, zl_vel,
+    #  xa_vel, ya_vel, za_vel,
+    #  xl_acc, yl_acc, xl_acc]
 
 # todo: to be re-integrated once odom from wheels is implemented
 #    odom0: odometry/wheel
@@ -29,11 +35,11 @@ ekf_filter_node_odom:
 #    odom0_relative: false
 
     imu0: imu
-    imu0_config: [false, false, false, # todo verify what imu outputs
+    imu0_config: [false, false, false, # gives only angular vel and linear acc
                   false, false, false,
                   false, false, false,
-                  false, false, false,
-                  false, false, false]
+                  true,  true,  true,
+                  true,  true,  true]
     imu0_nodelay: false
     imu0_differential: false
     imu0_relative: false
@@ -41,10 +47,10 @@ ekf_filter_node_odom:
     imu0_remove_gravitational_acceleration: true
     
     twist0: twistwithcovariancestamped
-    twist0_config: [false, false, false,
+    twist0_config: [false, false, false, # gives only linear vel
                     false, false, false,
-                    true,  true,  true, # not sure if we want z vel
-                    false, false, true, # not sure if roll and pitch are needed e.g. ramp
+                    true,  true,  true, # not sure if we want linear z vel
+                    false, false, false,
                     false, false, false]
     twist0_nodelay: false # look into, defaults false anyway
     twist0_queue_size: 10
@@ -100,7 +106,7 @@ ekf_filter_node_map:
     world_frame: map
 
     odom0: odometry/gps
-    odom0_config: [true,  true,  false,
+    odom0_config: [true,  true,  false, # gps converted to odom, only gives positional data
                    false, false, false,
                    false, false, false,
                    false, false, false,
@@ -124,11 +130,11 @@ ekf_filter_node_map:
 #    odom1_relative: false
 
     imu0: imu
-    imu0_config: [false, false, false, # todo verify what imu outputs
+    imu0_config: [false, false, false, # gives only angular vel and linear acc
                   false, false, false,
                   false, false, false,
-                  false, false, false,
-                  false, false, false]
+                  true,  true,  true,
+                  true,  true,  true]
     imu0_nodelay: true
     imu0_differential: false
     imu0_relative: false
@@ -136,10 +142,10 @@ ekf_filter_node_map:
     imu0_remove_gravitational_acceleration: true
     
     twist0: twistwithcovariancestamped
-    twist0_config: [false, false, false,
+    twist0_config: [false, false, false, # gives only linear vel
                     false, false, false,
-                    true,  true,  true, # not sure if we want z vel
-                    false, false, true, # not sure if roll and pitch are needed e.g. ramp
+                    true,  true,  true, # not sure if we want linear z vel
+                    false, false, false,
                     false, false, false]
     twist0_nodelay: false # look into, defaults false anyway
     twist0_queue_size: 10
